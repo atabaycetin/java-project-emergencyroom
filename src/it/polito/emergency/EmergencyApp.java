@@ -1,9 +1,11 @@
 package it.polito.emergency;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.*;
 import java.time.*;
+import java.util.stream.*;
 
 public class EmergencyApp {
 
@@ -131,8 +133,25 @@ public class EmergencyApp {
      * @throws IOException If there is an error reading from the file or if the reader is null.
      */
     public int readFromFileProfessionals(Reader reader) throws IOException {
-        
-        return -1;
+        List<String> content;
+        int count = 0;
+        try (BufferedReader in = new BufferedReader(reader)) {
+			content = in.lines().collect(Collectors.toList());
+		} catch (IOException e) {
+			throw new IOException(e.getMessage());
+		}
+        for (String lines: content) {
+            // to skip the header
+            if (count == 0) {
+                count++;
+            } else {
+                String[] temp = lines.split(",");
+                addProfessional(temp[0].strip(), temp[1].strip(), temp[2].strip(), temp[3].strip(), temp[4].strip());
+                count++;
+            }
+
+        }
+        return count;
     }
 
     /**
@@ -145,8 +164,26 @@ public class EmergencyApp {
      * @throws IOException If there is an error reading from the file or if the reader is null.
      */    
     public int readFromFileDepartments(Reader reader) throws IOException {
-        //TODO: to be implemented
-        return -1;
+        List<String> content;
+        int count = 0;
+        try (BufferedReader in = new BufferedReader(reader)) {
+			content = in.lines().collect(Collectors.toList());
+		} catch (IOException e) {
+			throw new IOException(e.getMessage());
+		}
+        for (String lines: content) {
+            // to skip the header
+            if (count == 0) {
+                count++;
+            } else {
+                String[] temp = lines.split(",");
+                addDepartment(temp[0].strip(), Integer.valueOf(temp[1].strip()));
+                count++;
+            }
+
+            
+        }
+        return count;
     }
 
     /**
@@ -160,7 +197,7 @@ public class EmergencyApp {
      * @param dateTimeAccepted The date and time the patient was accepted into the emergency system.
      */
     public Patient addPatient(String fiscalCode, String name, String surname, String dateOfBirth, String reason, String dateTimeAccepted) {
-        //TODO: to be implemented
+        Patient temp = new Patient(fiscalCode, name, surname, dateOfBirth, reason, dateTimeAccepted);
         return null;
     }
 
