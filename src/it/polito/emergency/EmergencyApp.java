@@ -390,8 +390,8 @@ public class EmergencyApp {
      */
     public int getNumberOfPatientsAssignedToProfessionalDischarged(String specialization) {
         return (int) patients.values().stream()
-                        .filter(p -> assignedPatients.containsKey(p.getFiscalCode()))
-                        .filter(p -> assignedPatients.get(p.getFiscalCode()).getSpecialization().equals(specialization))
+                        .filter(p -> assignedPatients.containsKey(p))
+                        .filter(p -> assignedPatients.get(p).getSpecialization().equals(specialization))
                         .filter(p -> p.getStatus().equals(PatientStatus.DISCHARGED))
                         .count();
     }
