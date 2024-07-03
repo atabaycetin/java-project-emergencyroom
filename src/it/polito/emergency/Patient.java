@@ -4,10 +4,17 @@ import it.polito.emergency.EmergencyApp.*;
 import java.time.*;
 
 public class Patient {
+
+    public enum PatientStatus {
+        ADMITTED,
+        DISCHARGED,
+        HOSPITALIZED
+    }
+
     String fiscalCode, name, surname, dateOfBirth, reason, dateTimeAccepted;
     LocalDate birthDate;
     LocalDateTime dateAccepted;
-
+    PatientStatus status;
     public Patient(String fiscalCode, String name, String surname, String dateOfBirth, String reason,
             String dateTimeAccepted) {
         this.fiscalCode = fiscalCode;
@@ -18,6 +25,7 @@ public class Patient {
         this.reason = reason;
         this.dateTimeAccepted = dateTimeAccepted;
         this.dateAccepted = LocalDateTime.parse(dateTimeAccepted);
+        this.status = PatientStatus.ADMITTED;
     }
 
     public String getFiscalCode() {
@@ -37,15 +45,15 @@ public class Patient {
     }
 
     public String getReason() {
-        return null;
+        return reason;
     }
 
     public String getDateTimeAccepted() {
-        return null;
+        return dateTimeAccepted;
     }
 
     public PatientStatus getStatus() {
-        return null;
+        return status;
     }
     
 }
