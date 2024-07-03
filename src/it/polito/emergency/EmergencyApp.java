@@ -34,6 +34,7 @@ public class EmergencyApp {
     private final Map<String, Professional> professionals = new HashMap<>();
     private final List<String> specializations = new ArrayList<>();
     private final Map<String, Department> departments = new HashMap<>();
+    private final Map<String, Patient> patients = new HashMap<>();
 
     /**
      * Add a professional working in the emergency room
@@ -133,6 +134,8 @@ public class EmergencyApp {
      * @throws IOException If there is an error reading from the file or if the reader is null.
      */
     public int readFromFileProfessionals(Reader reader) throws IOException {
+        if (reader == null) 
+            throw new IOException("Null reader input!");
         List<String> content;
         int count = 0;
         try (BufferedReader in = new BufferedReader(reader)) {
@@ -151,7 +154,7 @@ public class EmergencyApp {
             }
 
         }
-        return count;
+        return count-1;
     }
 
     /**
@@ -164,6 +167,8 @@ public class EmergencyApp {
      * @throws IOException If there is an error reading from the file or if the reader is null.
      */    
     public int readFromFileDepartments(Reader reader) throws IOException {
+        if (reader == null) 
+            throw new IOException("Null reader input!");
         List<String> content;
         int count = 0;
         try (BufferedReader in = new BufferedReader(reader)) {
@@ -183,7 +188,7 @@ public class EmergencyApp {
 
             
         }
-        return count;
+        return count-1;
     }
 
     /**
@@ -197,9 +202,8 @@ public class EmergencyApp {
      * @param dateTimeAccepted The date and time the patient was accepted into the emergency system.
      */
     public Patient addPatient(String fiscalCode, String name, String surname, String dateOfBirth, String reason, String dateTimeAccepted) {
-        Patient temp = new Patient(fiscalCode, name, surname, dateOfBirth, reason, dateTimeAccepted);
-        
-        return null;
+        patients.put(fiscalCode, new Patient(fiscalCode, name, surname, dateOfBirth, reason, dateTimeAccepted));
+        return patients.get(fiscalCode);
     }
 
     /**
@@ -210,8 +214,14 @@ public class EmergencyApp {
      *         Returns an empty collection if no match is found.
      */    
     public List<Patient> getPatient(String identifier) throws EmergencyException {
-        //TODO: to be implemented
-        return null;
+        List<Patient> temp = patients.entrySet().stream()
+                                .filter(entry -> entry.getKey().equals(identifier) || 
+                                        entry.getValue().getSurname().equals(identifier))
+                                .map(Map.Entry::getValue)
+                                .toList();
+        if (temp.isEmpty())
+            throw new EmergencyException("No patients found with given identifier!");
+        return temp;
     }
 
     /**
@@ -223,7 +233,7 @@ public class EmergencyApp {
      *         Returns an empty list if no patients were accepted on that date.
      */
     public List<String> getPatientsByDate(String date) {
-        //TODO: to be implemented
+        
         return null;
     }
 
