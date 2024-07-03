@@ -13,7 +13,7 @@ public class Patient {
 
     String fiscalCode, name, surname, dateOfBirth, reason, dateTimeAccepted;
     LocalDate birthDate;
-    LocalDateTime dateAccepted;
+    LocalDate dateAccepted;
     PatientStatus status;
     public Patient(String fiscalCode, String name, String surname, String dateOfBirth, String reason,
             String dateTimeAccepted) {
@@ -24,7 +24,7 @@ public class Patient {
         this.birthDate = LocalDate.parse(dateOfBirth);
         this.reason = reason;
         this.dateTimeAccepted = dateTimeAccepted;
-        this.dateAccepted = LocalDateTime.parse(dateTimeAccepted);
+        this.dateAccepted = LocalDate.parse(dateTimeAccepted);
         this.status = PatientStatus.ADMITTED;
     }
 
@@ -64,7 +64,7 @@ public class Patient {
         return birthDate;
     }
 
-    public LocalDateTime getDateAccepted() {
+    public LocalDate getDateAccepted() {
         return dateAccepted;
     }
     
