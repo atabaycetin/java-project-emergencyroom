@@ -55,5 +55,17 @@ public class Patient {
     public PatientStatus getStatus() {
         return status;
     }
+
+    public void setStatus(PatientStatus status) {
+        this.status = status;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public LocalDateTime getDateAccepted() {
+        return dateAccepted;
+    }
     
 }
