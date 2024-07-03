@@ -39,6 +39,7 @@ public class Professional {
         this.surname = surname;
         this.specialization = specialization;
         this.period = period;
+        
     }
     public String getId() {
         return id;
