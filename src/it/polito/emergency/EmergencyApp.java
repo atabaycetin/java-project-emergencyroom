@@ -198,6 +198,7 @@ public class EmergencyApp {
      */
     public Patient addPatient(String fiscalCode, String name, String surname, String dateOfBirth, String reason, String dateTimeAccepted) {
         Patient temp = new Patient(fiscalCode, name, surname, dateOfBirth, reason, dateTimeAccepted);
+        
         return null;
     }
 
