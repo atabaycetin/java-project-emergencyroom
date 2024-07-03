@@ -47,7 +47,7 @@ public class EmergencyApp {
     private final Map<String, Patient> patients = new HashMap<>();
     private final Map<Patient, Professional> assignedPatients = new HashMap<>();
     private final Map<String, Report> reports = new HashMap<>();
-    private final Map<Department, Patient> depPatients = new HashMap<>();
+    private Map<Department, Patient> depPatients = new HashMap<>();
 
 
     /**
@@ -316,6 +316,8 @@ public class EmergencyApp {
             departments.get(departmentName).decrementNumPatients();
             depPatients.put(departments.get(departmentName), patients.get(fiscalCode));
         } else {
+            if (depPatients.get(departments.get(departmentName)).getStatus() == PatientStatus.HOSPITALIZED)
+                departments.get(departmentName).incementNumPatients();
             patients.get(fiscalCode).setStatus(PatientStatus.DISCHARGED);
         }
     }
@@ -361,8 +363,10 @@ public class EmergencyApp {
     }
 
     public int getNumberOfPatientsHospitalizedByDepartment(String departmentName) throws EmergencyException {
-        //TODO: to be implemented
-        return -1;
+        if (!departments.containsKey(departmentName))
+            throw new EmergencyException();
+        Department temp = departments.get(departmentName);
+        return temp.getMaxPatients()-temp.getNumPatients();
     }
 
     /**
@@ -371,8 +375,9 @@ public class EmergencyApp {
      * @return The count of discharged patients.
      */
     public int getNumberOfPatientsDischarged() {
-        //TODO: to be implemented
-        return -1;
+        return (int) patients.values().stream()
+                        .filter(p -> p.getStatus() == PatientStatus.DISCHARGED)
+                        .count();
     }
 
     /**
