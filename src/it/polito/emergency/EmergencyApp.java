@@ -12,9 +12,26 @@ public class EmergencyApp {
         DISCHARGED,
         HOSPITALIZED
     }
+
+    public class Department {
+        String name;
+        int maxPatients;
+		public Department(String name, int maxPatients) {
+			this.name = name;
+			this.maxPatients = maxPatients;
+		}
+        public String getName() {
+            return name;
+        }
+        public int getMaxPatients() {
+            return maxPatients;
+        }
+        
+    }
     
     private final Map<String, Professional> professionals = new HashMap<>();
     private final List<String> specializations = new ArrayList<>();
+    private final Map<String, Department> departments = new HashMap<>();
 
     /**
      * Add a professional working in the emergency room
@@ -89,7 +106,7 @@ public class EmergencyApp {
      * @throws EmergencyException If the department already exists.
      */
     public void addDepartment(String name, int maxPatients) {
-        //TODO: to be implemented
+        departments.put(name, new Department(name, maxPatients));
     }
 
     /**
@@ -99,8 +116,9 @@ public class EmergencyApp {
      * @throws EmergencyException If no departments are found.
      */
     public List<String> getDepartments() throws EmergencyException {
-        //TODO: to be implemented
-        return null;
+        if (departments.isEmpty())
+            throw new EmergencyException("No registered departments found!");
+        return departments.values().stream().map(Department::getName).toList();
     }
 
     /**
@@ -113,7 +131,7 @@ public class EmergencyApp {
      * @throws IOException If there is an error reading from the file or if the reader is null.
      */
     public int readFromFileProfessionals(Reader reader) throws IOException {
-        //TODO: to be implemented
+        
         return -1;
     }
 
