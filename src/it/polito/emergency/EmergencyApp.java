@@ -36,6 +36,9 @@ public class EmergencyApp {
     private final Map<String, Department> departments = new HashMap<>();
     private final Map<String, Patient> patients = new HashMap<>();
     private final Map<Patient, Professional> assignedPatients = new HashMap<>();
+    private final Map<String, Report> reports = new HashMap<>();
+    private final Map<Department, Patient> depPatients = new HashMap<>();
+
 
     /**
      * Add a professional working in the emergency room
@@ -274,12 +277,16 @@ public class EmergencyApp {
                                 .collect(Collectors.toList());
         if (temp.isEmpty())
             throw new EmergencyException();
+        assignedPatients.put(patient, professionals.get(temp.get(0)));
         return temp.get(0);
     }
 
+    int reportId = 1;
     public Report saveReport(String professionalId, String fiscalCode, String date, String description) throws EmergencyException {
-        //TODO: to be implemented
-        return null;
+        if (!professionals.containsKey(professionalId))
+            throw new EmergencyException();
+        reports.put(String.valueOf(reportId), new Report(String.valueOf(reportId), professionalId, fiscalCode, date, description));
+        return reports.get(String.valueOf(reportId++));
     }
 
     /**
@@ -290,7 +297,7 @@ public class EmergencyApp {
      * @throws EmergencyException If the patient does not exist or if the department does not exist.
      */
     public void dischargeOrHospitalize(String fiscalCode, String departmentName) throws EmergencyException {
-        //TODO: to be implemented
+        
     }
 
     /**
