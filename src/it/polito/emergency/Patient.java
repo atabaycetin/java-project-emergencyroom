@@ -1,23 +1,39 @@
 package it.polito.emergency;
 
 import it.polito.emergency.EmergencyApp.*;
+import java.time.*;
 
 public class Patient {
+    String fiscalCode, name, surname, dateOfBirth, reason, dateTimeAccepted;
+    LocalDate birthDate;
+    LocalDateTime dateAccepted;
+
+    public Patient(String fiscalCode, String name, String surname, String dateOfBirth, String reason,
+            String dateTimeAccepted) {
+        this.fiscalCode = fiscalCode;
+        this.name = name;
+        this.surname = surname;
+        this.dateOfBirth = dateOfBirth;
+        this.birthDate = LocalDate.parse(dateOfBirth);
+        this.reason = reason;
+        this.dateTimeAccepted = dateTimeAccepted;
+        this.dateAccepted = LocalDateTime.parse(dateTimeAccepted);
+    }
 
     public String getFiscalCode() {
-        return null;
+        return fiscalCode;
     }
 
     public String getName() {
-        return null;
+        return name;
     }
 
     public String getSurname() {
-        return null;
+        return surname;
     }
 
     public String getDateOfBirth() {
-        return null;
+        return dateOfBirth;
     }
 
     public String getReason() {
@@ -31,4 +47,5 @@ public class Patient {
     public PatientStatus getStatus() {
         return null;
     }
+    
 }
