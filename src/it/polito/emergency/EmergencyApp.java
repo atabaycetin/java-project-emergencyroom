@@ -2,7 +2,7 @@ package it.polito.emergency;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.List;
+import java.util.*;
 
 public class EmergencyApp {
 
@@ -12,6 +12,8 @@ public class EmergencyApp {
         HOSPITALIZED
     }
     
+    private final Map<String, Professional> professionals = new HashMap<>();
+
     /**
      * Add a professional working in the emergency room
      * 
@@ -23,7 +25,7 @@ public class EmergencyApp {
      * @param workingHours
      */
     public void addProfessional(String id, String name, String surname, String specialization, String period) {
-        //TODO: to be implemented
+        professionals.put(id, new Professional(id, name, surname, specialization, period));
     }
 
     /**
