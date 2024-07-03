@@ -233,8 +233,20 @@ public class EmergencyApp {
      *         Returns an empty list if no patients were accepted on that date.
      */
     public List<String> getPatientsByDate(String date) {
-        
-        return null;
+        List<String> temp = patients.values().stream()
+                                .filter(p -> p.getDateAccepted().equals(LocalDate.parse(date)))
+                                .sorted((p1, p2) -> {
+                                    if (p1.getSurname().equals(p1.getSurname())) {
+                                        return p1.getName().compareTo(p2.getName());
+                                    } else {
+                                        return p1.getSurname().compareTo(p2.getSurname());
+                                    }
+                                })
+                                .map(Patient::getFiscalCode)
+                                .collect(Collectors.toList());
+        if (temp.isEmpty())
+            return new ArrayList<String>();
+        return temp;
     }
 
     /**
