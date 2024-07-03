@@ -2,7 +2,7 @@ package it.polito.emergency;
 
 public class Report {
     String reportId, professionalId, fiscalCode, date, description;
-    
+
     public Report(String reportId, String professionalId, String fiscalCode, String date, String description) {
 		this.reportId = reportId;
         this.professionalId = professionalId;
