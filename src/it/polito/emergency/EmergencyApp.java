@@ -28,6 +28,7 @@ public class EmergencyApp {
      */
     public void addProfessional(String id, String name, String surname, String specialization, String period) {
         professionals.put(id, new Professional(id, name, surname, specialization, period));
+        specializations.add(specialization);
     }
 
     /**
@@ -70,11 +71,14 @@ public class EmergencyApp {
     public List<String> getProfessionalsInService(String specialization, String period) throws EmergencyException {
         LocalDate startPeriod = LocalDate.parse(period.split(" to ")[0]);
         LocalDate endPeriod = LocalDate.parse(period.split(" to ")[1]);
-        return professionals.values().stream()
-        .filter(p -> p.getSpecialization().equals(specialization))
-        .filter(p -> p.getStart().compareTo(startPeriod) > 0 && p.getEnd().compareTo(endPeriod) < 0)
-        .map(Professional::getId)
-        .toList();
+        List<String> temp = professionals.values().stream()
+                                .filter(p -> p.getSpecialization().equals(specialization))
+                                .filter(p -> p.getStart().compareTo(startPeriod) <= 0 && p.getEnd().compareTo(endPeriod) >= 0)
+                                .map(Professional::getId)
+                                .toList();
+        if (temp.isEmpty())
+            throw new EmergencyException("No professionals found within given period and specialization!");
+        return temp;
     }
 
     /**
