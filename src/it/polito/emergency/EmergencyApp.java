@@ -35,6 +35,7 @@ public class EmergencyApp {
     private final List<String> specializations = new ArrayList<>();
     private final Map<String, Department> departments = new HashMap<>();
     private final Map<String, Patient> patients = new HashMap<>();
+    private final Map<Patient, Professional> assignedPatients = new HashMap<>();
 
     /**
      * Add a professional working in the emergency room
@@ -151,6 +152,7 @@ public class EmergencyApp {
                 String[] temp = lines.split(",");
                 addProfessional(temp[0].strip(), temp[1].strip(), temp[2].strip(), temp[3].strip(), temp[4].strip());
                 count++;
+                specializations.add(temp[3].strip());
             }
 
         }
@@ -258,8 +260,21 @@ public class EmergencyApp {
      * @throws EmergencyException If the patient does not exist, if no professionals with the required specialization are found, or if none are available during the period of the request.
      */
     public String assignPatientToProfessional(String fiscalCode, String specialization) throws EmergencyException {
-        //TODO: to be implemented
-        return null;
+        if (!patients.containsKey(fiscalCode))
+            throw new EmergencyException("No patient found with given fiscal code!");
+        Patient patient = patients.get(fiscalCode);
+        if (!specialization.contains(specialization))
+            throw new EmergencyException("No professionals found with given specialization!");
+        List<String> temp = professionals.values().stream()
+                                .filter(p -> p.getSpecialization().equals(specialization))
+                                .filter(p -> p.getStart().compareTo(patient.getDateAccepted()) <= 0 ||
+                                            p.getEnd().compareTo(patient.getDateAccepted()) >= 0)
+                                .sorted((p1, p2) -> p1.getId().compareTo(p2.getId()))
+                                .map(Professional::getId)
+                                .collect(Collectors.toList());
+        if (temp.isEmpty())
+            throw new EmergencyException();
+        return temp.get(0);
     }
 
     public Report saveReport(String professionalId, String fiscalCode, String date, String description) throws EmergencyException {
