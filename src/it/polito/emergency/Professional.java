@@ -4,7 +4,7 @@ import java.time.*;
 
 public class Professional {
 
-    String id, name, surname, specialization, period;
+    String id, name, surname, specialization, period, workingHours;
     LocalDate start, end;
     public Professional (String id, String name, String surname, String specialization, String period) {
         String[] temp = period.split(" to ");
@@ -15,6 +15,18 @@ public class Professional {
         this.surname = surname;
         this.specialization = specialization;
         this.period = period;
+        this.workingHours = "24/7";
+    }
+    public Professional (String id, String name, String surname, String specialization, String period, String workingHours) {
+        String[] temp = period.split(" to ");
+        start = LocalDate.parse(temp[0]);
+        end = LocalDate.parse(temp[1]);
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.specialization = specialization;
+        this.period = period;
+        this.workingHours = workingHours;
     }
     public String getId() {
         return id;
@@ -37,7 +49,7 @@ public class Professional {
     }
 
     public String getWorkingHours() {
-        return "24/7";
+        return workingHours;
     }
 	public LocalDate getStart() {
 		return start;
