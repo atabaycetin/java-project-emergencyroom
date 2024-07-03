@@ -17,10 +17,11 @@ public class EmergencyApp {
 
     public class Department {
         String name;
-        int maxPatients;
+        int maxPatients, numPatients;
 		public Department(String name, int maxPatients) {
 			this.name = name;
 			this.maxPatients = maxPatients;
+            this.numPatients = maxPatients;
 		}
         public String getName() {
             return name;
@@ -28,7 +29,16 @@ public class EmergencyApp {
         public int getMaxPatients() {
             return maxPatients;
         }
-        
+        public int getNumPatients() {
+            return numPatients;
+        }
+        public void decrementNumPatients() {
+            numPatients--;
+        }
+        public void incementNumPatients() {
+
+            numPatients++;
+        }
     }
     
     private final Map<String, Professional> professionals = new HashMap<>();
@@ -297,7 +307,17 @@ public class EmergencyApp {
      * @throws EmergencyException If the patient does not exist or if the department does not exist.
      */
     public void dischargeOrHospitalize(String fiscalCode, String departmentName) throws EmergencyException {
-        
+        if (!patients.containsKey(fiscalCode))
+            throw new EmergencyException();
+        if (!departments.containsKey(departmentName))
+            throw new EmergencyException();
+        if (departments.get(departmentName).getNumPatients() > 0) {
+            patients.get(fiscalCode).setStatus(PatientStatus.HOSPITALIZED);
+            departments.get(departmentName).decrementNumPatients();
+            depPatients.put(departments.get(departmentName), patients.get(fiscalCode));
+        } else {
+            patients.get(fiscalCode).setStatus(PatientStatus.DISCHARGED);
+        }
     }
 
     /**
@@ -308,8 +328,12 @@ public class EmergencyApp {
      * @throws EmergencyException If no patient is found with the given fiscal code.
      */
     public int verifyPatient(String fiscalCode) throws EmergencyException{
-        //TODO: to be implemented
-        return -1;
+        if (!patients.containsKey(fiscalCode))
+            throw new EmergencyException();
+        if (patients.get(fiscalCode).getStatus() == PatientStatus.HOSPITALIZED)
+            return 0;
+        else
+            return -1;
     }
 
     /**
@@ -318,8 +342,9 @@ public class EmergencyApp {
      * @return The total number of patients in the system.
      */    
     public int getNumberOfPatients() {
-        //TODO: to be implemented
-        return -1;
+        return (int) patients.values().stream()
+                        .filter(p -> p.getStatus() == PatientStatus.ADMITTED)
+                        .count();
     }
 
     /**
@@ -329,8 +354,10 @@ public class EmergencyApp {
      * @return The count of patients admitted on that date.
      */
     public int getNumberOfPatientsByDate(String date) {
-        //TODO: to be implemented
-        return -1;
+        LocalDate d = LocalDate.parse(date);
+        return (int) patients.values().stream()
+                        .filter(p -> p.getDateAccepted().equals(d))
+                        .count();
     }
 
     public int getNumberOfPatientsHospitalizedByDepartment(String departmentName) throws EmergencyException {
