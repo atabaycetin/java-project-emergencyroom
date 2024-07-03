@@ -13,6 +13,7 @@ public class EmergencyApp {
     }
     
     private final Map<String, Professional> professionals = new HashMap<>();
+    private final List<String> specializations = new ArrayList<>();
 
     /**
      * Add a professional working in the emergency room
@@ -36,8 +37,9 @@ public class EmergencyApp {
      * @throws EmergencyException If no professional is found.
      */    
     public Professional getProfessionalById(String id) throws EmergencyException {
-        //TODO: to be implemented
-        return null;
+        if (!professionals.containsKey(id))
+            throw new EmergencyException("Professional not found!");
+        return professionals.get(id);
     }
 
     /**
@@ -48,8 +50,12 @@ public class EmergencyApp {
      * @throws EmergencyException If no professionals are found with the specified specialization.
      */    
     public List<String> getProfessionals(String specialization) throws EmergencyException {
-        //TODO: to be implemented
-        return null;
+        if (!specializations.contains(specialization))
+            throw new EmergencyException("No professionals found with given specialization!");
+        return professionals.values().stream()
+            .filter(p -> p.getSpecialization().equals(specialization))
+            .map(Professional::getId)
+            .toList();
     }
 
     /**
