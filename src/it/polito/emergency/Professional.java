@@ -1,12 +1,8 @@
 package it.polito.emergency;
 
-import java.time.*;
-import java.time.format.*;
-
 public class Professional {
 
     String id, name, surname, specialization, period;
-    LocalDate start, end;
     public Professional (String id, String name, String surname, String specialization, String period) {
         this.id = id;
         this.name = name;
