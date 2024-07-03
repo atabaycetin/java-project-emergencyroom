@@ -3,6 +3,7 @@ package it.polito.emergency;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.*;
+import java.time.*;
 
 public class EmergencyApp {
 
@@ -67,8 +68,13 @@ public class EmergencyApp {
      * @throws EmergencyException If no professionals are found with the specified specialization and period.
      */    
     public List<String> getProfessionalsInService(String specialization, String period) throws EmergencyException {
-        //TODO: to be implemented
-        return null;
+        LocalDate startPeriod = LocalDate.parse(period.split(" to ")[0]);
+        LocalDate endPeriod = LocalDate.parse(period.split(" to ")[1]);
+        return professionals.values().stream()
+        .filter(p -> p.getSpecialization().equals(specialization))
+        .filter(p -> p.getStart().compareTo(startPeriod) > 0 && p.getEnd().compareTo(endPeriod) < 0)
+        .map(Professional::getId)
+        .toList();
     }
 
     /**
@@ -248,4 +254,5 @@ public class EmergencyApp {
         //TODO: to be implemented
         return -1;
     }
+
 }
