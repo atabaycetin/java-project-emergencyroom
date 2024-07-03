@@ -3,13 +3,8 @@ package it.polito.emergency;
 import it.polito.emergency.EmergencyApp.*;
 import java.time.*;
 
-public class Patient {
 
-    public enum PatientStatus {
-        ADMITTED,
-        DISCHARGED,
-        HOSPITALIZED
-    }
+public class Patient {
 
     String fiscalCode, name, surname, dateOfBirth, reason, dateTimeAccepted;
     LocalDate birthDate;
@@ -56,8 +51,8 @@ public class Patient {
         return status;
     }
 
-    public void setStatus(PatientStatus status) {
-        this.status = status;
+    public void setStatus(PatientStatus stat) {
+        this.status = stat;
     }
 
     public LocalDate getBirthDate() {
