@@ -235,7 +235,7 @@ public class EmergencyApp {
                                 .map(Map.Entry::getValue)
                                 .toList();
         if (temp.isEmpty())
-            throw new EmergencyException("No patients found with given identifier!");
+            return new ArrayList<>(); // changed it to return empty list from throwing EmergencyException
         return temp;
     }
 
